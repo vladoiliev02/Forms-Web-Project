@@ -6,7 +6,7 @@ CREATE TABLE `User` (
   `id` integer PRIMARY KEY,
   `username` varchar(255),
   `email` varchar(255),
-  `password` int
+  `password` varchar(255)
 );
 
 CREATE TABLE `Form` (
