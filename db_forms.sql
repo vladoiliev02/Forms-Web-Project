@@ -2,36 +2,32 @@ create database forms;
 
 use forms;
 
-CREATE TABLE `User` (
-  `id` integer PRIMARY KEY,
+create table `user` (
+  `id` int primary key,
   `username` varchar(255),
   `email` varchar(255),
   `password` varchar(255)
 );
 
-CREATE TABLE `Form` (
-  `id` integer PRIMARY KEY,
+create table `form` (
+  `id` int primary key,
+  `user_id` int,
   `title` varchar(255),
-  `user_id` integer
+  foreign key (`user_id`) references `user`(`id`)
 );
 
-CREATE TABLE `Question` (
-  `id` integer PRIMARY KEY,
-  `form_id` integer,
-  `value` text
-);
-
-CREATE TABLE `Answer` (
-  `id` integer PRIMARY KEY,
-  `question_id` integer,
+create table `question` (
+  `id` int primary key,
+  `form_id` int,
   `value` text,
-  `user_id` int
+  foreign key (`form_id`) references `form`(`id`)
 );
 
-ALTER TABLE `Form` ADD FOREIGN KEY (`id`) REFERENCES `User` (`id`);
-
-ALTER TABLE `Question` ADD FOREIGN KEY (`id`) REFERENCES `Form` (`id`);
-
-ALTER TABLE `Answer` ADD FOREIGN KEY (`id`) REFERENCES `Question` (`id`);
-
-ALTER TABLE `Answer` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
+create table `answer` (
+  `id` int primary key,
+  `question_id` int,
+  `user_id` int,
+  `value` text,
+  foreign key (`question_id`) references `question`(`id`),
+  foreign key (`user_id`) references `user`(`id`)
+);
