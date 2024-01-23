@@ -1,0 +1,17 @@
+body {
+    margin: 0px;
+    color: white;
+    background-color: #100e14;
+    font-family: sans-serif;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: xxx-large;
+}
