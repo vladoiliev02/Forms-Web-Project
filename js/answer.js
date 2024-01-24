@@ -37,7 +37,7 @@ window.onload = function () {
 
     console.log(JSON.stringify(answers));
 
-    fetchWithErrorHandling('./php/forms.php', {
+    fetchWithErrorHandling('../php/forms.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ window.onload = function () {
 };
 
 function fetchForm(formId) {
-  return fetchWithErrorHandling(`./php/forms.php?formId=${formId}`)
+  return fetchWithErrorHandling(`../php/forms.php?formId=${formId}`)
     .then(response => response.json());
 }
 
