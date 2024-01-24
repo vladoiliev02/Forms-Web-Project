@@ -2,7 +2,7 @@ window.onload = function () {
   const user = getAuthenticatedUser();
 
   if (user == null) {
-    window.location.href = './index.html';
+    window.location.href = '../index.html';
   }
 
   document.getElementById('add-question').addEventListener('click', function () {

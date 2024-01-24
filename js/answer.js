@@ -2,7 +2,7 @@ window.onload = function () {
   const user = getAuthenticatedUser();
 
   if (user == null) {
-    window.location.href = './index.html';
+    window.location.href = '../index.html';
   }
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -45,7 +45,7 @@ window.onload = function () {
       body: JSON.stringify(answers),
     })
       .then(_ => {
-        window.location.href = './index.html';
+        window.location.href = '../index.html';
       });
   });
 };
