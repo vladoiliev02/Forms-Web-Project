@@ -179,14 +179,16 @@ function getForm($formId)
 
     $questions = [];
     foreach ($results as $row) {
-        array_push($questions, new Question(
-            $row['questionId'],
-            $row['question_form_id'],
-            $row['question_value'],
-            '',
-            '',
-            []
-        )
+        array_push(
+            $questions,
+            new Question(
+                $row['questionId'],
+                $row['question_form_id'],
+                $row['question_value'],
+                '',
+                '',
+                []
+            )
         );
     }
 
@@ -241,7 +243,10 @@ function getQuestion($questionId)
 function handlePostRequest()
 {
     $data = json_decode(file_get_contents('php://input'), true);
-    if (isset($data['userId']) && isset($data['title']) && isset($data['questions'])) {
+    if (
+        isset($data['userId']) && isset($data['title']) && isset($data['questions'])
+        && $data['userId'] == $_SESSION['userId']
+    ) {
         $userId = $data['userId'];
         $title = $data['title'];
 
@@ -314,9 +319,14 @@ function handleGetRequest()
 {
     if (isset($_GET['userId'])) {
         $userId = $_GET['userId'];
-        $forms = getForms($userId);
-        header('Content-Type: application/json');
-        echo json_encode($forms);
+        if ($userId == $_SESSION['userId']) {
+            $forms = getForms($userId);
+            header('Content-Type: application/json');
+            echo json_encode($forms);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Forms not found']);
+        }
     } elseif (isset($_GET['formId'])) {
         $formId = $_GET['formId'];
         $form = getForm($formId);
@@ -335,7 +345,7 @@ function handleDeleteRequest()
     if (isset($_GET['formId'])) {
         $formId = $_GET['formId'];
         $form = getForm($formId);
-        if ($form->userId == $_SESSION['userId']){
+        if ($form->userId == $_SESSION['userId']) {
             deleteForm($formId);
         }
     }
