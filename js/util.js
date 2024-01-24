@@ -1,6 +1,6 @@
 function getAuthenticatedUser() {
   // Dancho...
-  return { id: 1 }
+  return { id: 1, username: "vlado02", email: "v.iliev@gmail.com" }
 }
 
 
