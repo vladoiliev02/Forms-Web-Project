@@ -28,6 +28,21 @@ class DB
     {
         return $this->databaseConnection->lastInsertId();
     }
+    
+    public function beginTransaction()
+    {
+        $this->databaseConnection->beginTransaction();
+    }
+
+    public function commit()
+    {
+        $this->databaseConnection->commit();
+    }
+
+    public function rollback()
+    {
+        $this->databaseConnection->rollback();
+    }
 }
 
 function single_query($sql, $values)

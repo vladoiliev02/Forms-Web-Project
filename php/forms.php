@@ -4,11 +4,13 @@ require_once "./db.php";
 
 $db = new DB();
 
-class Question {
+class Question
+{
     public $id;
     public $formId;
     public $value;
-    public function __construct($id, $formId, $value) {
+    public function __construct($id, $formId, $value)
+    {
         $this->id = $id;
         $this->formId = $formId;
         $this->value = $value;
@@ -53,23 +55,32 @@ function deleteForm($formId)
 {
     global $db;
 
-    $db->query('
+    try {
+        $db->beginTransaction();
+
+        $db->query('
         delete from answer
         where question_id IN (select id from question where form_id = :form_id)',
-        ['form_id' => $formId]
-    );
+            ['form_id' => $formId]
+        );
 
-    $db->query('
+        $db->query('
         delete from question
         where form_id = :form_id',
-        ['form_id' => $formId]
-    );
+            ['form_id' => $formId]
+        );
 
-    $db->query('
+        $db->query('
         delete from form
         where id = :form_id',
-        ['form_id' => $formId]
-    );
+            ['form_id' => $formId]
+        );
+
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
+        throw $e;
+    }
 }
 
 function handleRequest()
@@ -127,16 +138,28 @@ function handlePostRequest()
     if (isset($data['userId']) && isset($data['title']) && isset($data['questions'])) {
         $userId = $data['userId'];
         $title = $data['title'];
-        $form = createForm($title, $userId);
 
-        $questions = [];
-        foreach ($data['questions'] as $question) {
-            if (isset($question['value'])) {
-                $question = createQuestion($form->id, $question['value']);
-                array_push($questions, $question);
+        global $db;
+
+        try {
+            $db->beginTransaction();
+
+            $form = createForm($title, $userId);
+
+            $questions = [];
+            foreach ($data['questions'] as $question) {
+                if (isset($question['value'])) {
+                    $question = createQuestion($form->id, $question['value']);
+                    array_push($questions, $question);
+                }
             }
+            $form->questions = $questions;
+
+            $db->commit();
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw $e;
         }
-        $form->questions = $questions;
 
         header('Content-Type: application/json');
         echo json_encode($form);
