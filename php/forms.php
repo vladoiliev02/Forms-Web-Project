@@ -171,7 +171,7 @@ function getForm($formId)
     );
 
     $results = $query->fetchAll();
-    if (!$resuts) {
+    if (!$results) {
         return null;
     }
 
@@ -197,7 +197,7 @@ function getQuestion($questionId)
     );
 
     $results = $query->fetchAll();
-    if (!$resuts) {
+    if (!$results) {
         return null;
     }
 
