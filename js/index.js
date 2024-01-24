@@ -42,7 +42,7 @@ function displayForm(formContainerId, form) {
   formElement.appendChild(deleteButton);
 
   formElement.addEventListener('click', function (event) {
-    window.location.href = `./form.php?id=${form.id}`;
+    window.location.href = `./views/form.php?id=${form.id}`;
   });
 
   document.getElementById(formContainerId).appendChild(formElement);
