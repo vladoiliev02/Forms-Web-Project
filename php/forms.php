@@ -275,8 +275,7 @@ function handlePostRequest()
             $db->rollBack();
             throw $e;
         }
-    } 
-    else {
+    } else {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid request']);
     }
@@ -326,8 +325,7 @@ function handleGetRequest()
             $forms = getForms($userId);
             header('Content-Type: application/json');
             echo json_encode($forms);
-        } 
-        else {
+        } else {
             http_response_code(404);
             echo json_encode(['error' => 'Forms not found']);
         }
@@ -337,8 +335,7 @@ function handleGetRequest()
         if ($form != null && $form->userId == $_SESSION['userId']) {
             header('Content-Type: application/json');
             echo json_encode($form);
-        } 
-        else {
+        } else {
             http_response_code(404);
             echo json_encode(['error' => 'Form not found']);
         }
