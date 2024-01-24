@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once("./db.php");
 
@@ -23,8 +23,19 @@ function getForms($userId) {
 
     $forms = [];
     foreach($query->fetchAll() as $row) {
-        array_push($forms, new Form($row['id'], $row['title'], $row['userId']));
+        array_push($forms, new Form($row['id'], $row['title'], $row['user_id']));
     }
 
     return $forms;
 }
+
+function handleGetRequest() {
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['userId'])) {
+        $userId = $_GET['userId'];
+        $forms = getForms($userId);
+        header('Content-Type: application/json');
+        echo json_encode($forms);
+    }
+}
+
+handleGetRequest();

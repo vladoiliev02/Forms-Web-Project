@@ -5,40 +5,30 @@ window.onload = function () {
     document.getElementById('annonymous-section').style.display = 'none';
     document.getElementById('forms-section').style.display = 'flex';
 
-    let userForms = fetchUsersForms(user.id);
-    
-    userForms.forEach(form => {
-      let formElement = document.createElement('div');
-      formElement.classList.add('form');
-      formElement.innerHTML = `
-        <h3>${form.title}</h3>
-      `;
-
-      formElement.addEventListener('click', function (event) {
-        window.location.href = `./views/form.php?id=${form.id}`;
+    fetchUsersForms(user.id)
+      .then(forms => {
+        forms.forEach(form => {
+          displayForm('forms', form);
+        });
       });
-
-      document.getElementById('forms').appendChild(formElement);
-    });
   }
 };
 
 function fetchUsersForms(userId) {
-  // return fetch(`/php/forms.php?userId=${userId}`)
-  //   .then(response => response.json())
-  //   .then(forms => forms);
-    return [
-      {
-        id: 1,
-        title: 'Form 1'
-      },
-      {
-        id: 2,
-        title: 'Form 2'
-      },
-      {
-        id: 3,
-        title: 'Form 3'
-      }
-    ]
+  return fetch(`/forms/php/forms.php?userId=${userId}`)
+    .then(response => response.json());
+}
+
+function displayForm(formContainerId, form) {
+  let formElement = document.createElement('div');
+  formElement.classList.add('form');
+  formElement.innerHTML = `
+    <h3>${form.title}</h3>
+  `;
+
+  formElement.addEventListener('click', function (event) {
+    window.location.href = `./views/form.php?id=${form.id}`;
+  });
+
+  document.getElementById(formContainerId).appendChild(formElement);
 }
