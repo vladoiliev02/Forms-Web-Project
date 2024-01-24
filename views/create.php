@@ -28,9 +28,7 @@
     </div>
   </header>
 
-  <section id="questions">
-
-  </section>
+  <section id="questions"></section>
 </body>
 
 </html>

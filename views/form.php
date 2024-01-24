@@ -28,9 +28,17 @@ if (!$form) {
 
 <body>
     <section id="title-section">
-        <header class="content"><?= $form->title ?></header>
+        <section id="title-subsection">
+            <header><?= $form->title ?></header>
+            <a href="../index.html">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H10v7H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+        </section>
     </section>
-    <main class="content">
+    <main id="main-body">
         <?php foreach($form->questions as $question) { ?>
             <article>
                 <h3><?= $question->value ?></h3>
