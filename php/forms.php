@@ -74,19 +74,24 @@ function deleteForm($formId)
 
 function handleRequest()
 {
-    switch ($_SERVER['REQUEST_METHOD']) {
-        case 'GET':
-            handleGetRequest();
-            break;
-        case 'POST':
-            handlePostRequest();
-            break;
-        case 'DELETE':
-            handleDeleteRequest();
-            break;
-        default:
-            header('Location /forms/views/404.php');
-            break;
+    try {
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                handleGetRequest();
+                break;
+            case 'POST':
+                handlePostRequest();
+                break;
+            case 'DELETE':
+                handleDeleteRequest();
+                break;
+            default:
+                header('Location /forms/views/404.php');
+                break;
+        }
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode(['error' => $e->getMessage()]);
     }
 }
 

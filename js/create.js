@@ -16,7 +16,7 @@ window.onload = function () {
   document.getElementById('create-form').addEventListener('click', function () {
     const titleInput = document.getElementById('form-name');
     if (titleInput.value === '') {
-      displayError(document.getElementById('form-name-div'),'Please fill out the title before submitting.');
+      displayError(document.getElementById('form-name-div'), 'Please fill out the title before submitting.');
       return;
     }
 
@@ -38,7 +38,7 @@ window.onload = function () {
 
     console.log(JSON.stringify(form))
 
-    fetch(`/forms/php/forms.php`, {
+    fetchWithErrorHandling(`/forms/php/forms.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
