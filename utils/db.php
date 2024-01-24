@@ -15,5 +15,3 @@ function single_query($sql, $values) {
     $query->execute($values);
     return $query;
 }
-
-?>
