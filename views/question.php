@@ -5,7 +5,7 @@ if ($id < 1) {
     not_found();
 }
 
-require('../utils/db.php');
+require('../php/db.php');
 
 $query = single_query('
     select q.value as title, u.username as username, a.value as value
