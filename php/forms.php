@@ -163,7 +163,9 @@ function getForm($formId)
     global $db;
 
     $query = $db->query('
-        select f.id as form_id, f.title as form_title, f.user_id as form_user_id, q.id as questionId, q.form_id as question_form_id, q.value as question_value
+        select f.id as form_id, f.title as form_title,
+            f.user_id as form_user_id, q.id as questionId,
+            q.form_id as question_form_id, q.value as question_value
         from form as f
         left join question as q on f.id = q.form_id
         where f.id = :form_id',
@@ -171,13 +173,21 @@ function getForm($formId)
     );
 
     $results = $query->fetchAll();
-    if (!$results) {    
+    if (!$results) {
         return null;
     }
 
     $questions = [];
     foreach ($results as $row) {
-        array_push($questions, new Question($row['questionId'], $row['question_form_id'], $row['question_value'], '', '', []));
+        array_push($questions, new Question(
+            $row['questionId'],
+            $row['question_form_id'],
+            $row['question_value'],
+            '',
+            '',
+            []
+        )
+        );
     }
 
     return new Form($results[0]['form_id'], $results[0]['form_title'], $results[0]['form_user_id'], $questions);
@@ -188,7 +198,10 @@ function getQuestion($questionId)
     global $db;
 
     $query = $db->query('
-        select q.id as question_id, q.form_id as question_form_id, q.value as question_value, u.id as user_id, u.username as user_username, a.id as answer_id, a.value as answer_value
+        select q.id as question_id, q.form_id as question_form_id,
+            q.value as question_value, u.id as user_id,
+            u.username as user_username, a.id as answer_id,
+            a.value as answer_value
         from question as q
         left join answer as a on q.id = a.question_id
         left join user as u on a.user_id = u.id
@@ -203,10 +216,26 @@ function getQuestion($questionId)
 
     $answers = [];
     foreach ($results as $row) {
-        array_push($answers, new Answer($row['answer_id'], $row['question_id'], $row['answer_value'], $row['user_id'], $row['user_username']));
+        array_push(
+            $answers,
+            new Answer(
+                $row['answer_id'],
+                $row['question_id'],
+                $row['answer_value'],
+                $row['user_id'],
+                $row['user_username']
+            )
+        );
     }
 
-    return new Question($results[0]['question_id'], $results[0]['question_form_id'], $results[0]['question_value'], '', '', $answers);
+    return new Question(
+        $results[0]['question_id'],
+        $results[0]['question_form_id'],
+        $results[0]['question_value'],
+        '',
+        '',
+        $answers
+    );
 }
 
 function handlePostRequest()
@@ -217,7 +246,6 @@ function handlePostRequest()
         $title = $data['title'];
 
         global $db;
-
         try {
             $db->beginTransaction();
 
@@ -233,13 +261,16 @@ function handlePostRequest()
             $form->questions = $questions;
 
             $db->commit();
+
+            header('Content-Type: application/json');
+            echo json_encode($form);
         } catch (Exception $e) {
             $db->rollBack();
             throw $e;
         }
-
-        header('Content-Type: application/json');
-        echo json_encode($form);
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid request']);
     }
 }
 
@@ -247,7 +278,7 @@ function createAnswers($answers)
 {
     global $db;
 
-    
+
     try {
         $db->beginTransaction();
 
