@@ -96,6 +96,9 @@ function handleRequest()
             case 'DELETE':
                 handleDeleteRequest();
                 break;
+            case 'PATCH':
+                handlePatchRequest();
+                break;
             default:
                 header('Location /forms/views/404.php');
                 break;
@@ -132,6 +135,38 @@ function createQuestion($formId, $value)
     return new Question($db->lastInsertId(), $formId, $value);
 }
 
+function getForm($formId)
+{
+    global $db;
+
+    $query = $db->query('
+        select id, title, user_id
+        from form
+        where id = :form_id',
+        ['form_id' => $formId]
+    );
+
+    $form = $query->fetch();
+    if (!$form) {
+        return null;
+    }
+
+    $form = new Form($form['id'], $form['title'], $form['user_id'], []);
+
+    $query = $db->query('
+        select id, form_id, value
+        from question
+        where form_id = :form_id',
+        ['form_id' => $formId]
+    );
+
+    foreach ($query->fetchAll() as $row) {
+        array_push($form->questions, new Question($row['id'], $row['form_id'], $row['value']));
+    }
+
+    return $form;
+}
+
 function handlePostRequest()
 {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -166,6 +201,42 @@ function handlePostRequest()
     }
 }
 
+function createAnswers($answers)
+{
+    global $db;
+
+    
+    try {
+        $db->beginTransaction();
+
+        $stmt = $db->prepare('
+            insert into answer (question_id, user_id, value)
+            values (:question_id, :user_id, :value)
+        ');
+
+        foreach ($answers as $answer) {
+            $stmt->execute([
+                'question_id' => $answer['questionId'],
+                'user_id' => $answer['userId'],
+                'value' => $answer['value'],
+            ]);
+        }
+
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
+        throw $e;
+    }
+}
+
+function handlePatchRequest()
+{
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (isset($data['answers'])) {
+        createAnswers($data['answers']);
+    }
+}
+
 function handleGetRequest()
 {
     if (isset($_GET['userId'])) {
@@ -173,6 +244,16 @@ function handleGetRequest()
         $forms = getForms($userId);
         header('Content-Type: application/json');
         echo json_encode($forms);
+    } elseif (isset($_GET['formId'])) {
+        $formId = $_GET['formId'];
+        $form = getForm($formId);
+        if ($form != null) {
+            header('Content-Type: application/json');
+            echo json_encode($form);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Form not found']);
+        }
     }
 }
 

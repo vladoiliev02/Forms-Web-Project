@@ -9,6 +9,10 @@ function fetchWithErrorHandling(uri, options) {
   return fetch(uri, options)
     .then(response => {
       if (!response.ok) {
+        if (response.status === 404) {
+          window.location.href = '../views/404.php';
+          return response;
+        }
         throw response;
       }
       return response;
@@ -49,4 +53,29 @@ function showErrorMessage(message) {
   modal.appendChild(button);
 
   document.body.appendChild(modal);
+}
+
+function checkEmptyInputs(container) {
+  for (const div of container) {
+    const input = div.querySelector('input[type="text"]');
+    if (input && input.value === '') {
+      displayError(div, 'Please fill out this question.')
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function displayError(container, errorMessage) {
+  if (!container.querySelector('.error')) {
+    const message = document.createElement('div');
+    message.classList.add('error');
+    message.textContent = errorMessage;
+    container.appendChild(message);
+
+    setTimeout(function () {
+      container.removeChild(message);
+    }, 2000);
+  }
 }

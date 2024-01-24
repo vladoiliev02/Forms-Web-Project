@@ -12,11 +12,6 @@ input {
   border-radius: 10px;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-}
-
 #create-form {
   display: none;
 }

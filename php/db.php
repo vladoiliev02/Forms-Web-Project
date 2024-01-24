@@ -43,6 +43,11 @@ class DB
     {
         $this->databaseConnection->rollback();
     }
+
+    public function prepare($sql, $options = [])
+    {
+        return $this->databaseConnection->prepare($sql, $options);
+    }
 }
 
 function single_query($sql, $values)
