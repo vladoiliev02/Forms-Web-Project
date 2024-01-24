@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $email = $_SESSION["email"] ?? null;
 
     $user =  (isset($userId)) ? array(
-        "userId" =>  $userId,
+        "id" =>  $userId,
         "username" =>  $username,
         "email" => $email
     ) : null;
