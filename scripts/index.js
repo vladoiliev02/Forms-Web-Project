@@ -1,9 +1,9 @@
 window.onload = async function () {
   const user = await getAuthenticatedUser();
 
-  document.getElementById("logout-button").style.display = "block";
-
+  
   if (user != null) {
+    document.getElementById("logout-button").style.display = "block";
     document.getElementById('annonymous-section').style.display = 'none';
     document.getElementById('forms-section').style.display = 'flex';
 
