@@ -1,7 +1,7 @@
 window.onload = async function () {
   const user = await getAuthenticatedUser();
 
-  console.log("index", user);
+  document.getElementById("logout-button").style.display = "block";
 
   if (user != null) {
     document.getElementById('annonymous-section').style.display = 'none';

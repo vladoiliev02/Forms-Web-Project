@@ -2,6 +2,10 @@
   display: none;
 }
 
+#logout-button {
+  display: none;
+}
+
 .form {
   display: flex;
   flex-direction: row;
