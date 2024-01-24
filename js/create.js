@@ -51,7 +51,7 @@ window.onload = function () {
     })
       .then(response => response.json())
       .then(form => {
-        window.location.href = `./views/form.php?id=${form.id}`;
+        window.location.href = `./form.php?id=${form.id}`;
       })
   });
 

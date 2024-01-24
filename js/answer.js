@@ -9,7 +9,7 @@ window.onload = function () {
   const formId = urlParams.get('formId');
 
   if (!formId) {
-    window.location.href = './views/404.php';
+    window.location.href = './404.php';
   }
 
   fetchForm(formId)
@@ -34,6 +34,8 @@ window.onload = function () {
       const questionId = input.parentElement.getAttribute('data-question-id');
       answers.push({ question_id: questionId, user_id: user.id, value: input.value });
     }
+
+    console.log(JSON.stringify(answers));
 
     fetchWithErrorHandling('./php/forms.php', {
       method: 'POST',
