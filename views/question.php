@@ -2,7 +2,7 @@
 
 $id = (int) $_GET['id'];
 if ($id < 1) {
-    header('Location: 404.php');
+    not_found();
 }
 
 require('../utils/db.php');
@@ -17,6 +17,10 @@ $query = single_query('
 );
 
 $answers = $query->fetchAll();
+if (!$answers) {
+    not_found();
+}
+
 $title = $answers[0]['title'];
 
 ?>

@@ -1,8 +1,10 @@
 <?php
 
+require('../php/redirect.php');
+
 $id = (int) $_GET['id'];
 if ($id < 1) {
-    header('Location: 404.php');
+    not_found();
 }
 
 require('../php/db.php');
@@ -16,6 +18,10 @@ $query = single_query('
 );
 
 $questions = $query->fetchAll();
+if (!$questions) {
+    not_found();
+}
+
 $title = $questions[0]['title'];
 
 ?>
