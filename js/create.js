@@ -2,7 +2,7 @@ window.onload = function () {
   const user = getAuthenticatedUser();
 
   if (user == null) {
-    window.location.href = '../index.html';
+    window.location.href = './index.html';
   }
 
   document.getElementById('add-question').addEventListener('click', function () {
@@ -42,7 +42,7 @@ window.onload = function () {
 
     console.log(JSON.stringify(form))
 
-    fetchWithErrorHandling(`../php/forms.php`, {
+    fetchWithErrorHandling(`./php/forms.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ window.onload = function () {
     })
       .then(response => response.json())
       .then(form => {
-        window.location.href = `../views/form.php?id=${form.id}`;
+        window.location.href = `./views/form.php?id=${form.id}`;
       })
   });
 

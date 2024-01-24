@@ -2,14 +2,14 @@ window.onload = function () {
   const user = getAuthenticatedUser();
 
   if (user == null) {
-    window.location.href = '../index.html';
+    window.location.href = './index.html';
   }
 
   const urlParams = new URLSearchParams(window.location.search);
   const formId = urlParams.get('formId');
 
   if (!formId) {
-    window.location.href = '../views/404.php';
+    window.location.href = './views/404.php';
   }
 
   fetchForm(formId)
@@ -35,7 +35,7 @@ window.onload = function () {
       answers.push({ question_id: questionId, user_id: user.id, value: input.value });
     }
 
-    fetchWithErrorHandling('../php/forms.php', {
+    fetchWithErrorHandling('./php/forms.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,13 +43,13 @@ window.onload = function () {
       body: JSON.stringify(answers),
     })
       .then(_ => {
-        window.location.href = '../index.html';
+        window.location.href = './index.html';
       });
   });
 };
 
 function fetchForm(formId) {
-  return fetchWithErrorHandling(`../php/forms.php?formId=${formId}`)
+  return fetchWithErrorHandling(`./php/forms.php?formId=${formId}`)
     .then(response => response.json());
 }
 

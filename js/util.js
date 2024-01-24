@@ -10,7 +10,7 @@ function fetchWithErrorHandling(uri, options) {
     .then(response => {
       if (!response.ok) {
         if (response.status === 404) {
-          window.location.href = '../views/404.php';
+          window.location.href = './views/404.php';
           return response;
         }
         throw response;
