@@ -28,11 +28,3 @@ function getForms($userId) {
 
     return $forms;
 }
-
-insert into user (email, password, username) values
-("v.iliev@gmail.com", "Test1234", "vlado02");
-
-insert into form (title, user_id) VALUES
-('form 1', 1),
-('form 2', 1),
-('form 3', 1);
