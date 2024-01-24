@@ -332,7 +332,7 @@ function handleGetRequest()
     } elseif (isset($_GET['formId'])) {
         $formId = $_GET['formId'];
         $form = getForm($formId);
-        if ($form != null && $form->userId == $_SESSION['userId']) {
+        if ($form != null) {
             header('Content-Type: application/json');
             echo json_encode($form);
         } else {
