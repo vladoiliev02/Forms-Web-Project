@@ -9,7 +9,7 @@ if ($questionId < 1) {
 
 require('../php/forms.php');
 
-$question = getQuestion($formId);
+$question = getQuestion($questionId);
 if (!$question) {
     redirectNotFound();
 }

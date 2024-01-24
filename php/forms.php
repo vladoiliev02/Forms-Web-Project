@@ -172,7 +172,7 @@ function getForm($formId)
 
     $results = $query->fetchAll();
     if (!$resuts) {
-        return NULL;
+        return null;
     }
 
     $questions = [];
@@ -193,12 +193,12 @@ function getQuestion($questionId)
         left join answer as a on q.id = a.question_id
         left join user as u on a.user_id = u.id
         where q.id = :question_id',
-        ['question_id' => $id]
+        ['question_id' => $questionId]
     );
 
     $results = $query->fetchAll();
     if (!$resuts) {
-        return NULL;
+        return null;
     }
 
     $answers = [];
@@ -206,7 +206,7 @@ function getQuestion($questionId)
         array_push($answers, new Answer($row['a.id'], $row['q.id'], $row['a.value'], $row['u.id'], $row['u.username']));
     }
 
-    return new Question($result[0]['q.id'], $result[0]['q.form_id'], $result[0]['q.value'], '', '', $answers);
+    return new Question($results[0]['q.id'], $results[0]['q.form_id'], $results[0]['q.value'], '', '', $answers);
 }
 
 function handlePostRequest()
