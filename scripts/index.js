@@ -1,5 +1,7 @@
-window.onload = function () {
-  const user = getAuthenticatedUser();
+window.onload = async function () {
+  const user = await getAuthenticatedUser();
+
+  console.log("index", user);
 
   if (user != null) {
     document.getElementById('annonymous-section').style.display = 'none';
@@ -25,7 +27,7 @@ function displayForm(formContainerId, form) {
   formElement.innerHTML = `
     <h3>${form.title}</h3>
   `;
-  
+
   let buttonDiv = document.createElement('div');
 
   let viewResultsButton = document.createElement('button');

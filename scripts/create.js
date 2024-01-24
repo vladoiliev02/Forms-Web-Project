@@ -1,5 +1,5 @@
-window.onload = function () {
-  const user = getAuthenticatedUser();
+window.onload = async function () {
+  const user = await getAuthenticatedUser();
 
   if (user == null) {
     window.location.href = '../index.html';

@@ -1,9 +1,18 @@
-function getAuthenticatedUser() {
-  // Dancho...
-  return { id: 1, username: "vlado02", email: "v.iliev@gmail.com" }
+let prefix;
+
+if (window.location.href.includes('/views/')) {
+  prefix = '..';
+} else {
+  prefix = '.';
 }
 
+async function getAuthenticatedUser() {
+  let response = await fetchWithErrorHandling(`${prefix}/php/auth.php`);
+  let user = await response.json();
+  console.log(user);
 
+  return user;
+}
 
 function fetchWithErrorHandling(uri, options) {
   return fetch(uri, options)
