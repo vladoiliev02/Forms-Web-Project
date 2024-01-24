@@ -26,6 +26,21 @@ function displayForm(formContainerId, form) {
     <h3>${form.title}</h3>
   `;
 
+  let deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.classList.add('delete-button');
+  deleteButton.addEventListener('click', function (event) {
+    event.stopPropagation();
+    fetch(`/forms/php/forms.php?id=${form.id}`, {
+      method: 'DELETE',
+    }).then(response => {
+      if (response.ok) {
+        formElement.remove();
+      }
+    });
+  });
+  formElement.appendChild(deleteButton);
+
   formElement.addEventListener('click', function (event) {
     window.location.href = `./views/form.php?id=${form.id}`;
   });

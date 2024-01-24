@@ -1,6 +1,8 @@
 <?php
 
-require_once("./db.php");
+require_once "./db.php";
+
+$db = new DB();
 
 class Form
 {
@@ -17,7 +19,9 @@ class Form
 
 function getForms($userId)
 {
-    $query = single_query('
+    global $db;
+
+    $query = $db->query('
         select id, title, user_id
         from form f
         where user_id = :user_id',
@@ -32,15 +36,36 @@ function getForms($userId)
     return $forms;
 }
 
+function deleteForm($formId) {
+    global $db;
+
+    $db->query('
+        delete from answear
+        where question_id IN (select id from question where form_id = :form_id)',
+        ['form_id' => $formId]
+    );
+
+    $db->query('
+        delete from question
+        where form_id = :form_id',
+        ['form_id' => $formId]
+    );
+
+    $db->query('
+        delete from form
+        where id = :form_id',
+        ['form_id' => $formId]
+    );
+}
+
 function handleRequest()
 {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            if (isset($_GET['userId'])) {
-                $userId = $_GET['userId'];
-                handleGetRequest($userId);
-                break;
-            }
+            handleGetRequest();
+            break;
+        case 'DELETE':
+            handleDeleteRequest();
             break;
         default:
             header('Location /forms/views/404.php');
@@ -48,11 +73,22 @@ function handleRequest()
     }
 }
 
-function handleGetRequest($userId)
+function handleGetRequest()
 {
-    $forms = getForms($userId);
-    header('Content-Type: application/json');
-    echo json_encode($forms);
+    if (isset($_GET['userId'])) {
+        $userId = $_GET['userId'];
+        $forms = getForms($userId);
+        header('Content-Type: application/json');
+        echo json_encode($forms);
+    }
+}
+
+function handleDeleteRequest()
+{
+    if (isset($_GET['formId'])) {
+        $formId = $_GET['formId'];
+        deleteForm($formId);
+    }
 }
 
 handleRequest();
