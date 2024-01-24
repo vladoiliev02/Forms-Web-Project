@@ -1,6 +1,6 @@
 <?php
 
-require_once "./db.php";
+require_once "db.php";
 
 $db = new DB();
 
@@ -163,7 +163,7 @@ function getForm($formId)
     global $db;
 
     $query = $db->query('
-        select f.id, f.title, f.user_id, q.id, q.form_id, q.value
+        select f.id as form_id, f.title as form_title, f.user_id as form_user_id, q.id as questionId, q.form_id as question_form_id, q.value as question_value
         from form as f
         left join question as q on f.id = q.form_id
         where f.id = :form_id',
@@ -171,16 +171,16 @@ function getForm($formId)
     );
 
     $results = $query->fetchAll();
-    if (!$results) {
+    if (!$results) {    
         return null;
     }
 
     $questions = [];
     foreach ($results as $row) {
-        array_push($questions, new Question($row['q.id'], $row['q.form_id'], $row['q.value'], '', '', []));
+        array_push($questions, new Question($row['questionId'], $row['question_form_id'], $row['question_value'], '', '', []));
     }
 
-    return new Form($results[0]['f.id'], $results[0]['f.title'], $results[0]['f.user_id'], $questions);
+    return new Form($results[0]['form_id'], $results[0]['form_title'], $results[0]['form_user_id'], $questions);
 }
 
 function getQuestion($questionId)
@@ -188,7 +188,7 @@ function getQuestion($questionId)
     global $db;
 
     $query = $db->query('
-        select q.id, q.form_id, q.value, u.id, u.username, a.id, a.value
+        select q.id as question_id, q.form_id as question_form_id, q.value as question_value, u.id as user_id, u.username as user_username, a.id as answer_id, a.value as answer_value
         from question as q
         left join answer as a on q.id = a.question_id
         left join user as u on a.user_id = u.id
@@ -203,10 +203,10 @@ function getQuestion($questionId)
 
     $answers = [];
     foreach ($results as $row) {
-        array_push($answers, new Answer($row['a.id'], $row['q.id'], $row['a.value'], $row['u.id'], $row['u.username']));
+        array_push($answers, new Answer($row['answer_id'], $row['question_id'], $row['answer_value'], $row['user_id'], $row['user_username']));
     }
 
-    return new Question($results[0]['q.id'], $results[0]['q.form_id'], $results[0]['q.value'], '', '', $answers);
+    return new Question($results[0]['question_id'], $results[0]['question_form_id'], $results[0]['question_value'], '', '', $answers);
 }
 
 function handlePostRequest()

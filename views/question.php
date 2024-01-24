@@ -1,13 +1,13 @@
 <?php
 
-require_once('../php/redirect.php');
+require_once '../php/redirect.php';
 
 $questionId = (int) $_GET['id'];
 if ($questionId < 1) {
     redirectNotFound();
 }
 
-require_once('../php/forms.php');
+require_once '../php/forms.php';
 
 $question = getQuestion($questionId);
 if (!$question) {
@@ -20,7 +20,7 @@ if (!$question) {
 <html>
 
 <head>
-    <title><?= $title ?></title>
+    <title><?= $question->value ?></title>
     <meta charset="UTF-8">
     <link href="../styles/common.css" rel="stylesheet" />
     <link href="../styles/question.css" rel="stylesheet" />
@@ -28,7 +28,7 @@ if (!$question) {
 
 <body>
     <section id="title-section">
-        <header class="content"><?= $title ?></header>
+        <header class="content"><?= $question->value ?></header>
     </section>
     <main class="content">
         <?php foreach($question->answers as $answer) { ?>

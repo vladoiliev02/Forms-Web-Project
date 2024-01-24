@@ -6,8 +6,8 @@
   <title>Home</title>
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/create.css">
-  <script src="../js/util.js"></script>
-  <script src="../js/create.js"></script>
+  <script src="../scripts/util.js"></script>
+  <script src="../scripts/create.js"></script>
 </head>
 
 <body>

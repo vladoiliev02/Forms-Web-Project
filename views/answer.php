@@ -6,13 +6,12 @@
   <title>Home</title>
   <link rel="stylesheet" href="../styles/common.css">
   <link rel="stylesheet" href="../styles/answer.css">
-  <script src="../js/util.js"></script>
-  <script src="../js/answer.js"></script>
+  <script src="../scripts/util.js"></script>
+  <script src="../scripts/answer.js"></script>
 </head>
 
 <body>
   <header>
-    <h1>Answering:</h1>
     <h1 id="form-title"></h1>
     <a href="../index.html">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
