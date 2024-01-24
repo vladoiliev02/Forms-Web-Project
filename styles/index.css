@@ -12,16 +12,6 @@
   margin: 10px;
   border-radius: 10px;
   background-color: #522e92;
-  cursor: pointer;
-}
-
-.form:hover {
-  transition: 0.5s ease;
-  background-color: #3d226c;
-}
-
-#user-forms {
-  width: 80%
 }
 
 .delete-button {
@@ -31,4 +21,17 @@
 .delete-button:hover {
   transition: 0.5s ease;
   background-color: rgb(142, 0, 0);
+}
+
+.invertedbutton  {
+  background-color: #100e14;
+}
+
+.invertedbutton:hover {
+  transition: 0.5s ease;
+  background-color: #3d226c;
+}
+
+#user-forms {
+  width: 80%
 }

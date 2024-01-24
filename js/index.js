@@ -26,6 +26,24 @@ function displayForm(formContainerId, form) {
     <h3>${form.title}</h3>
   `;
 
+  let viewResultsButton = document.createElement('button');
+  viewResultsButton.textContent = 'View Results';
+  viewResultsButton.classList.add('invertedbutton');
+  viewResultsButton.addEventListener('click', function (event) {
+    event.stopPropagation();
+    window.location.href = `./views/form.php?id=${form.id}`;
+  });
+  formElement.appendChild(viewResultsButton);
+
+  let answerButton = document.createElement('button');
+  answerButton.textContent = 'Answer';
+  answerButton.classList.add('invertedbutton');
+  answerButton.addEventListener('click', function (event) {
+    event.stopPropagation();
+    window.location.href = `./views/answer.php?formId=${form.id}`;
+  });
+  formElement.appendChild(answerButton);
+
   let deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.classList.add('delete-button');
@@ -40,10 +58,6 @@ function displayForm(formContainerId, form) {
     });
   });
   formElement.appendChild(deleteButton);
-
-  formElement.addEventListener('click', function (event) {
-    window.location.href = `./views/form.php?id=${form.id}`;
-  });
 
   document.getElementById(formContainerId).appendChild(formElement);
 }
