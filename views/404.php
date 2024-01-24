@@ -20,6 +20,7 @@
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
         </a>
+        <a href="./logout.php" id="logout-button">Logout</a>
     </main>
 </body>
 
