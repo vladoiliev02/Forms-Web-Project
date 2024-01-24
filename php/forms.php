@@ -320,7 +320,7 @@ function handleGetRequest()
     } elseif (isset($_GET['formId'])) {
         $formId = $_GET['formId'];
         $form = getForm($formId);
-        if ($form != null) {
+        if ($form != null && $form->userId == $_SESSION['userId']) {
             header('Content-Type: application/json');
             echo json_encode($form);
         } else {
@@ -334,7 +334,10 @@ function handleDeleteRequest()
 {
     if (isset($_GET['formId'])) {
         $formId = $_GET['formId'];
-        deleteForm($formId);
+        $form = getForm($formId);
+        if ($form->userId == $_SESSION['userId']){
+            deleteForm($formId);
+        }
     }
 }
 
