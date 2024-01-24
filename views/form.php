@@ -5,7 +5,7 @@ if ($id < 1) {
     header('Location: 404.php');
 }
 
-require('../utils/db.php');
+require('../php/db.php');
 
 $query = single_query('
     select f.title as title, q.id as id, q.value as value
