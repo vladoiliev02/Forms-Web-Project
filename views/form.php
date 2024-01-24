@@ -1,16 +1,23 @@
 <?php
-    $id = (int) $_GET['id'];
-    if ($id < 1) {
-        header('Location: 404.php');
-    }
 
-    $title = 'Form about some important stuff I forgot about';
-    $questions = [
-        ['id' => 1, 'value' => 'Lorem ipsum text bla bla yeay latin is that it'],
-        ['id' => 2, 'value' => 'Amidst the swirling mists of an ancient forest, a lone traveler stumbled upon a hidden grove'],
-        ['id' => 3, 'value' => 'Bathed in an ethereal glow, the grove was home to a mystical tree, its branches adorned with shimmering leaves and its trunk pulsating with an otherworldly energy'],
-        ['id' => 4, 'value' => 'Overwhelmed by this newfound power, the traveler embarked on a journey of exploration, using their newfound magic to unravel the secrets of the forest'],
-    ];
+$id = (int) $_GET['id'];
+if ($id < 1) {
+    header('Location: 404.php');
+}
+
+require('../utils/db.php');
+
+$query = single_query('
+    select f.title as title, q.id as id, q.value as value
+    from form as f
+    left join question as q on f.id = q.form_id
+    where f.id = :form_id',
+    ['form_id' => $id]
+);
+
+$questions = $query->fetchAll();
+$title = $questions[0]['title'];
+
 ?>
 
 <!DOCTYPE html>

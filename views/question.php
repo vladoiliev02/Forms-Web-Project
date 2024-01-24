@@ -1,16 +1,24 @@
 <?php
-    $id = (int) $_GET['id'];
-    if ($id < 1) {
-        header('Location: 404.php');
-    }
 
-    $title = 'This is a very important question that you must definitely answer';
-    $answers = [
-        ['username' => 'Satan', 'value' => 'Lorem ipsum text bla bla yeay latin is that it'],
-        ['username' => 'Bob', 'value' => 'Amidst the swirling mists of an ancient forest, a lone traveler stumbled upon a hidden grove'],
-        ['username' => 'Kuche', 'value' => 'Bathed in an ethereal glow, the grove was home to a mystical tree, its branches adorned with shimmering leaves and its trunk pulsating with an otherworldly energy'],
-        ['username' => 'Breza', 'value' => 'Overwhelmed by this newfound power, the traveler embarked on a journey of exploration, using their newfound magic to unravel the secrets of the forest'],
-    ];
+$id = (int) $_GET['id'];
+if ($id < 1) {
+    header('Location: 404.php');
+}
+
+require('../utils/db.php');
+
+$query = single_query('
+    select q.value as title, u.username as username, a.value as value
+    from question as q
+    left join answer as a on q.id = a.question_id
+    left join user as u on a.user_id = u.id
+    where q.id = :question_id',
+    ['question_id' => $id]
+);
+
+$answers = $query->fetchAll();
+$title = $answers[0]['title'];
+
 ?>
 
 <!DOCTYPE html>
