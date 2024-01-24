@@ -6,23 +6,26 @@ body {
 }
 
 #title-section {
+  display: flex;
   background-color: #522e92;
   font-size: xx-large;
   font-weight: 500;
+  align-items: stretch;
 }
 
 #title-subsection {
   display: flex;
   flex-direction: row;
   padding: 20px;
-  max-width: 700px;
+  width: 100%;
+  align-items: baseline;
 }
 
-#title-subsection > header {
+#title-subsection>header {
   flex: auto;
 }
 
-#title-subsection > a {
+#title-subsection>a {
   flex: initial;
 }
 
@@ -60,8 +63,8 @@ header {
 }
 
 button {
-  background-color: #522e92; 
-  color: white; 
+  background-color: #522e92;
+  color: white;
   border: none;
   padding: 10px 20px;
   text-align: center;
@@ -74,9 +77,9 @@ button {
 }
 
 button:hover {
-  background-color: #3d226c; 
+  background-color: #3d226c;
   transition: 0.5s ease;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 hr {
@@ -98,11 +101,11 @@ header button:hover {
 }
 
 header h1 {
-  color: #ffffff; 
-  font-size: 2.5em; 
-  text-transform: uppercase; 
-  letter-spacing: 2px; 
-  margin-bottom: 20px; 
+  color: #ffffff;
+  font-size: 2.5em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
 section {
