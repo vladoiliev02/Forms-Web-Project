@@ -32,13 +32,13 @@ window.onload = function () {
     const answers = [];
     for (const input of inputs) {
       const questionId = input.parentElement.getAttribute('data-question-id');
-      answers.push({ question_id: questionId, user_id: user.id, value: input.value });
+      answers.push({ questionId: parseInt(questionId), userId: user.id, value: input.value });
     }
 
     console.log(JSON.stringify(answers));
 
     fetchWithErrorHandling('../php/forms.php', {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },

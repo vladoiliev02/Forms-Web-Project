@@ -232,8 +232,8 @@ function createAnswers($answers)
 function handlePatchRequest()
 {
     $data = json_decode(file_get_contents('php://input'), true);
-    if (isset($data['answers'])) {
-        createAnswers($data['answers']);
+    if (isset($data)) {
+        createAnswers($data);
     }
 }
 
