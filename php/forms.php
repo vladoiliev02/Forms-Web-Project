@@ -313,7 +313,7 @@ function createAnswers($answers)
 function handlePatchRequest()
 {
     $data = json_decode(file_get_contents('php://input'), true);
-    if (isset($data)) {
+    if (isset($data) && isset($_SESSION['userId'])) {
         createAnswers($data);
     }
 }
