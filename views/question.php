@@ -1,13 +1,13 @@
 <?php
 
-require('../php/redirect.php');
+require_once('../php/redirect.php');
 
 $questionId = (int) $_GET['id'];
 if ($questionId < 1) {
     redirectNotFound();
 }
 
-require('../php/forms.php');
+require_once('../php/forms.php');
 
 $question = getQuestion($questionId);
 if (!$question) {

@@ -1,6 +1,6 @@
 <?php
 
-function not_found() {
+function redirectNotFound() {
     header('Location: /views/404.php');
     exit();
 }
