@@ -1,0 +1,22 @@
+.question {
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+input {
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+#create-form {
+  display: none;
+}

@@ -31,7 +31,7 @@ function displayForm(formContainerId, form) {
   deleteButton.classList.add('delete-button');
   deleteButton.addEventListener('click', function (event) {
     event.stopPropagation();
-    fetch(`/forms/php/forms.php?id=${form.id}`, {
+    fetch(`/forms/php/forms.php?formId=${form.id}`, {
       method: 'DELETE',
     }).then(response => {
       if (response.ok) {

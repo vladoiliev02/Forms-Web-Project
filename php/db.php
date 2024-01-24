@@ -23,6 +23,11 @@ class DB
         $query->execute($values);
         return $query;
     }
+
+    public function lastInsertId()
+    {
+        return $this->databaseConnection->lastInsertId();
+    }
 }
 
 function single_query($sql, $values)
