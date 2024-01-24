@@ -25,6 +25,8 @@ function displayForm(formContainerId, form) {
   formElement.innerHTML = `
     <h3>${form.title}</h3>
   `;
+  
+  let buttonDiv = document.createElement('div');
 
   let viewResultsButton = document.createElement('button');
   viewResultsButton.textContent = 'View Results';
@@ -33,7 +35,7 @@ function displayForm(formContainerId, form) {
     event.stopPropagation();
     window.location.href = `./views/form.php?id=${form.id}`;
   });
-  formElement.appendChild(viewResultsButton);
+  buttonDiv.appendChild(viewResultsButton);
 
   let answerButton = document.createElement('button');
   answerButton.textContent = 'Answer';
@@ -42,7 +44,7 @@ function displayForm(formContainerId, form) {
     event.stopPropagation();
     window.location.href = `./views/answer.php?formId=${form.id}`;
   });
-  formElement.appendChild(answerButton);
+  buttonDiv.appendChild(answerButton);
 
   let deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
@@ -57,7 +59,8 @@ function displayForm(formContainerId, form) {
       }
     });
   });
-  formElement.appendChild(deleteButton);
+  buttonDiv.appendChild(deleteButton);
 
+  formElement.appendChild(buttonDiv);
   document.getElementById(formContainerId).appendChild(formElement);
 }
