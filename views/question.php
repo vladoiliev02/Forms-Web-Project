@@ -1,27 +1,18 @@
 <?php
 
-$id = (int) $_GET['id'];
-if ($id < 1) {
-    not_found();
+require('../php/redirect.php');
+
+$questionId = (int) $_GET['id'];
+if ($questionId < 1) {
+    redirectNotFound();
 }
 
-require('../php/db.php');
+require('../php/forms.php');
 
-$query = single_query('
-    select q.value as title, u.username as username, a.value as value
-    from question as q
-    left join answer as a on q.id = a.question_id
-    left join user as u on a.user_id = u.id
-    where q.id = :question_id',
-    ['question_id' => $id]
-);
-
-$answers = $query->fetchAll();
-if (!$answers) {
-    not_found();
+$question = getQuestion($formId);
+if (!$question) {
+    redirectNotFound();
 }
-
-$title = $answers[0]['title'];
 
 ?>
 
@@ -37,13 +28,13 @@ $title = $answers[0]['title'];
 
 <body>
     <section id="title-section">
-        <header class="content"><?= $title?></header>
+        <header class="content"><?= $title ?></header>
     </section>
     <main class="content">
-        <?php foreach($answers as $answer) { ?>
+        <?php foreach($question->answers as $answer) { ?>
             <article>
-                <p><?= $answer['username'] ?>:</p>
-                <h3><?= $answer['value'] ?></h3>
+                <p><?= $answer->username ?>:</p>
+                <h3><?= $answer->value ?></h3>
                 <hr />
             </article>
         <?php } ?>

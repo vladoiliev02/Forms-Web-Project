@@ -4,19 +4,6 @@ require_once "./db.php";
 
 $db = new DB();
 
-class Question
-{
-    public $id;
-    public $formId;
-    public $value;
-    public function __construct($id, $formId, $value)
-    {
-        $this->id = $id;
-        $this->formId = $formId;
-        $this->value = $value;
-    }
-}
-
 class Form
 {
     public $id;
@@ -29,6 +16,42 @@ class Form
         $this->title = $title;
         $this->userId = $userId;
         $this->questions = $questions;
+    }
+}
+
+class Question
+{
+    public $id;
+    public $formId;
+    public $value;
+    public $userId;
+    public $username;
+    public $answers;
+    public function __construct($id, $formId, $value, $userId, $username, $answers = [])
+    {
+        $this->id = $id;
+        $this->formId = $formId;
+        $this->value = $value;
+        $this->userId = $userId;
+        $this->username = $username;
+        $this->answers = $answers;
+    }
+}
+
+class Answer
+{
+    public $id;
+    public $questionId;
+    public $value;
+    public $userId;
+    public $username;
+    public function __construct($id, $questionId, $value, $userId, $username)
+    {
+        $this->id = $id;
+        $this->questionId = $questionId;
+        $this->value = $value;
+        $this->userId = $userId;
+        $this->username = $username;
     }
 }
 
@@ -132,7 +155,7 @@ function createQuestion($formId, $value)
         ['form_id' => $formId, 'value' => $value]
     );
 
-    return new Question($db->lastInsertId(), $formId, $value);
+    return new Question($db->lastInsertId(), $formId, $value, 0, '', []);
 }
 
 function getForm($formId)
@@ -140,31 +163,50 @@ function getForm($formId)
     global $db;
 
     $query = $db->query('
-        select id, title, user_id
-        from form
-        where id = :form_id',
+        select f.id, f.title, f.user_id, q.id, q.form_id, q.value
+        from form as f
+        left join question as q on f.id = q.form_id
+        where f.id = :form_id',
         ['form_id' => $formId]
     );
 
-    $form = $query->fetch();
-    if (!$form) {
-        return null;
+    $results = $query->fetchAll();
+    if (!$resuts) {
+        return NULL;
     }
 
-    $form = new Form($form['id'], $form['title'], $form['user_id'], []);
+    $questions = [];
+    foreach ($results as $row) {
+        array_push($questions, new Question($row['q.id'], $row['q.form_id'], $row['q.value'], '', '', []));
+    }
+
+    return new Form($results[0]['f.id'], $results[0]['f.title'], $results[0]['f.user_id'], $questions);
+}
+
+function getQuestion($questionId)
+{
+    global $db;
 
     $query = $db->query('
-        select id, form_id, value
-        from question
-        where form_id = :form_id',
-        ['form_id' => $formId]
+        select q.id, q.form_id, q.value, u.id, u.username, a.id, a.value
+        from question as q
+        left join answer as a on q.id = a.question_id
+        left join user as u on a.user_id = u.id
+        where q.id = :question_id',
+        ['question_id' => $id]
     );
 
-    foreach ($query->fetchAll() as $row) {
-        array_push($form->questions, new Question($row['id'], $row['form_id'], $row['value']));
+    $results = $query->fetchAll();
+    if (!$resuts) {
+        return NULL;
     }
 
-    return $form;
+    $answers = [];
+    foreach ($results as $row) {
+        array_push($answers, new Answer($row['a.id'], $row['q.id'], $row['a.value'], $row['u.id'], $row['u.username']));
+    }
+
+    return new Question($result[0]['q.id'], $result[0]['q.form_id'], $result[0]['q.value'], '', '', $answers);
 }
 
 function handlePostRequest()
