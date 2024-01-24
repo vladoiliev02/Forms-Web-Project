@@ -15,7 +15,7 @@ window.onload = function () {
 };
 
 function fetchUsersForms(userId) {
-  return fetchWithErrorHandling(`../php/forms.php?userId=${userId}`)
+  return fetchWithErrorHandling(`./php/forms.php?userId=${userId}`)
     .then(response => response.json());
 }
 
@@ -31,7 +31,7 @@ function displayForm(formContainerId, form) {
   deleteButton.classList.add('delete-button');
   deleteButton.addEventListener('click', function (event) {
     event.stopPropagation();
-    fetchWithErrorHandling(`../php/forms.php?formId=${form.id}`, {
+    fetchWithErrorHandling(`./php/forms.php?formId=${form.id}`, {
       method: 'DELETE',
     }).then(response => {
       if (response.ok) {
