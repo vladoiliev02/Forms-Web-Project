@@ -151,22 +151,6 @@ function validateAnswers(answers) {
       displayError(container, 'Please fill out all the questions.');
       return false;
     }
-
-    if (answer.type === 'number' && (answer.value < answer.min || answer.value > answer.max)) {
-      displayError(container, 'Please enter a valid number.');
-      return false;
-    }
-
-    if (answer.type === 'date' && (answer.value < answer.min || answer.value > answer.max)) {
-      const answerDate = new Date(answer.value);
-      const minDate = new Date(answer.min);
-      const maxDate = new Date(answer.max);
-
-      if (answerDate < minDate || answerDate > maxDate) {
-        displayError(container, 'Please enter a valid date.');
-        return false;
-      }
-    }
   }
 
   return true;
