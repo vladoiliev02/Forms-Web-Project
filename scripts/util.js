@@ -28,8 +28,13 @@ function fetchWithErrorHandling(uri, options) {
     })
     .catch(err => {
       err.text().then(errorMessage => {
-        const errorData = JSON.parse(errorMessage);
-        showErrorMessage(errorData.error);
+        try {
+          const errorData = JSON.parse(errorMessage);
+          showErrorMessage(errorData.error);
+          console.log(errorData);
+        } catch (error) {
+          console.log('Error:', errorMessage);
+        }
       });
     });
 }

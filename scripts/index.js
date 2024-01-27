@@ -1,7 +1,7 @@
 window.onload = async function () {
   const user = await getAuthenticatedUser();
 
-  
+
   if (user != null) {
     document.getElementById("logout-button").style.display = "block";
     document.getElementById('annonymous-section').style.display = 'none';
@@ -62,6 +62,15 @@ function displayForm(formContainerId, form) {
     });
   });
   buttonDiv.appendChild(deleteButton);
+
+  let editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.classList.add('invertedbutton');
+  editButton.addEventListener('click', function (event) {
+    event.stopPropagation();
+    window.location.href = `./views/create.php?formId=${form.id}`;
+  });
+  buttonDiv.appendChild(editButton);
 
   formElement.appendChild(buttonDiv);
   document.getElementById(formContainerId).appendChild(formElement);

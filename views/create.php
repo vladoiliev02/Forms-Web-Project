@@ -17,10 +17,9 @@
       <input type="text" id="form-name" name="name" placeholder="Enter a name for your form">
     </div>
     <div id="buttons">
-      <button id="create-form">Create</button>
-      <button id="add-question">Add Question</button>
       <a href="../index.html">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H10v7H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
@@ -28,7 +27,20 @@
     </div>
   </header>
 
+  <section id="json-section">
+    <span>JSON</span>
+    <div class="toggle-switch">
+      <input type="checkbox" id="jsonToggle" name="jsonToggle">
+      <label for="jsonToggle" class="slider"></label>
+    </div>
+  </section>
+
   <section id="questions"></section>
+
+  <footer id="create-add-section">
+    <button id="create-form">Create</button>
+    <button id="add-question">Add Question</button>
+  </footer>
 </body>
 
 </html>

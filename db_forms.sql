@@ -1,3 +1,4 @@
+drop database if exists forms;
 create database forms;
 
 use forms;
@@ -21,6 +22,11 @@ create table `question` (
   `id` int primary key auto_increment,
   `form_id` int,
   `value` text,
+  `type` varchar(255),
+  `values` text,
+  `min` varchar(255),
+  `max` varchar(255),
+  `step` varchar(255),
   foreign key (`form_id`) references `form`(`id`)
 );
 

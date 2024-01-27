@@ -23,7 +23,6 @@ window.onload = async function () {
 
   document.getElementById('submit').addEventListener('click', function () {
     const questionsDiv = document.getElementById('questions');
-    console.log(questionsDiv)
     if (!checkEmptyInputs(questionsDiv.querySelectorAll('.question'))) {
       return
     }
@@ -32,7 +31,15 @@ window.onload = async function () {
     const answers = [];
     for (const input of inputs) {
       const questionId = input.parentElement.getAttribute('data-question-id');
-      answers.push({ questionId: parseInt(questionId), userId: user.id, value: input.value });
+      if (input.type === 'radio' || input.type === 'checkbox') {
+        if (input.checked) {
+          const label = input.nextElementSibling;
+          const value = label.textContent;
+          answers.push({ questionId: parseInt(questionId), userId: user.id, value: value, type: input.type });
+        }
+      } else {
+        answers.push({ questionId: parseInt(questionId), userId: user.id, value: input.value, type: input.type});
+      }
     }
 
     console.log(JSON.stringify(answers));
@@ -64,9 +71,58 @@ function createQuestion(container, question) {
   questionP.textContent = question.value;
   questionDiv.appendChild(questionP);
 
-  const input = document.createElement('input');
-  input.type = 'text';
-  questionDiv.appendChild(input);
+  createAnswerInput(questionDiv, question);
 
   container.appendChild(questionDiv);
+}
+
+function createAnswerInput(container, question) {
+  const input = document.createElement('input');
+  switch (question.type) {
+    case 'text':
+      input.type = question.type;
+      input.placeholder = 'Your answer';
+      container.appendChild(input);
+      break;
+    case 'number':
+      input.type = question.type;
+      input.placeholder = 'Your answer';
+      input.min = question.min;
+      input.max = question.max;
+      input.step = question.step;
+      container.appendChild(input);
+      break;
+    case 'date':
+      input.type = question.type;
+      input.placeholder = 'Your answer';
+      input.min = question.min;
+      input.max = question.max;
+      container.appendChild(input);
+      break;
+    case 'checkbox':
+    case 'radio':
+      const options = question.values;
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
+
+      for (const option of options) {
+        const singleOption = document.createElement('div');
+        singleOption.setAttribute('data-question-id', question.id);
+        singleOption.className = 'single-option';
+        const optionInput = document.createElement('input');
+        optionInput.type = question.type;
+        optionInput.name = question.id;
+        optionInput.id = `option-${option}`;
+
+        const label = document.createElement('label');
+        label.textContent = option;
+        label.htmlFor = optionInput.id
+
+        singleOption.appendChild(optionInput);
+        singleOption.appendChild(label);
+        optionsDiv.appendChild(singleOption);
+      }
+      container.appendChild(optionsDiv);
+      break;
+  }
 }

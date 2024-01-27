@@ -26,3 +26,17 @@
   overflow: visible;
   max-height: 200px;
 }
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.single-option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
