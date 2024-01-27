@@ -38,8 +38,12 @@ window.onload = async function () {
           answers.push({ questionId: parseInt(questionId), userId: user.id, value: value, type: input.type });
         }
       } else {
-        answers.push({ questionId: parseInt(questionId), userId: user.id, value: input.value, type: input.type});
+        answers.push({ questionId: parseInt(questionId), userId: user.id, value: input.value, type: input.type });
       }
+    }
+
+    if (!validateAnswers(answers)) {
+      return;
     }
 
     console.log(JSON.stringify(answers));
@@ -125,4 +129,59 @@ function createAnswerInput(container, question) {
       container.appendChild(optionsDiv);
       break;
   }
+}
+
+function validateAnswers(answers) {
+  const container = document.getElementById('submit');
+
+  const questions = document.querySelectorAll('.question');
+  for (const question of questions) {
+    const radioInputs = question.querySelectorAll('input[type="radio"]');
+    const checkboxInputs = question.querySelectorAll('input[type="checkbox"]');
+
+    if (!isAnyInputChecked(radioInputs) || !isAnyInputChecked(checkboxInputs)) {
+      displayError(question, 'Please fill out all the questions.');
+      displayError(container, 'Please fill out all the questions.');
+      return false;
+    }
+  }
+
+  for (const answer of answers) {
+    if (answer.value === '') {
+      displayError(container, 'Please fill out all the questions.');
+      return false;
+    }
+
+    if (answer.type === 'number' && (answer.value < answer.min || answer.value > answer.max)) {
+      displayError(container, 'Please enter a valid number.');
+      return false;
+    }
+
+    if (answer.type === 'date' && (answer.value < answer.min || answer.value > answer.max)) {
+      const answerDate = new Date(answer.value);
+      const minDate = new Date(answer.min);
+      const maxDate = new Date(answer.max);
+
+      if (answerDate < minDate || answerDate > maxDate) {
+        displayError(container, 'Please enter a valid date.');
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+function isAnyInputChecked(inputs) {
+  if (!inputs || inputs.length === 0) {
+    return true;
+  }
+
+  for (const input of inputs) {
+    if (input.checked) {
+      return true;
+    }
+  }
+  
+  return false;
 }

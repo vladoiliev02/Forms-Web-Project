@@ -29,7 +29,7 @@ body {
 
 #main-body {
   margin: auto;
-  padding: 20px;
+  padding: 20px 20px 60px 20px;
   max-width: 700px;
 }
 
@@ -151,4 +151,24 @@ footer {
   align-items: center;
   justify-content: flex-end;
   height: 50px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #100e14;
 }
+
+input [type="submit"] {
+  background-color: #522e92;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+
