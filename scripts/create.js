@@ -167,6 +167,11 @@ function createQuestion(container, question = {}) {
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.addEventListener('click', function () {
+    if (question && question.id) {
+      fetchWithErrorHandling(`../php/forms.php?questionId=${question.id}`, {
+        method: 'DELETE'
+      });
+    }
     questionDiv.remove();
     if (!container.querySelector('.question')) {
       document.getElementById('create-form').style.display = 'none';

@@ -472,6 +472,32 @@ function handleGetRequest()
     }
 }
 
+function deleteQuestion($questionId)
+{
+    global $db;
+
+    try {
+        $db->beginTransaction();
+
+        $db->query('
+        delete from answer
+        where question_id = :question_id',
+            ['question_id' => $questionId]
+        );
+
+        $db->query('
+        delete from question
+        where id = :question_id',
+            ['question_id' => $questionId]
+        );
+
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
+        throw $e;
+    }
+}
+
 function handleDeleteRequest()
 {
     if (isset($_GET['formId'])) {
@@ -480,6 +506,15 @@ function handleDeleteRequest()
         if ($form->userId == $_SESSION['userId']) {
             deleteForm($formId);
         }
+    } elseif (isset($_GET['questionId'])) {
+        $questionId = $_GET['questionId'];
+        $question = getQuestion($questionId);
+        if (isset($question) && $question->userId == $_SESSION['userId']) {
+            deleteQuestion($questionId);
+        }
+    } else {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid request, do not know waht to delete']);
     }
 }
 
