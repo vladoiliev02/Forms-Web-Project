@@ -18,6 +18,9 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-evenly;
+  background-color: #272553;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .question input {
@@ -39,4 +42,8 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
+}
+
+.answer {
+  display: block;
 }

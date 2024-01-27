@@ -1,8 +1,11 @@
 body {
+  height: 100vh;
   margin: 0px;
   color: white;
   background-color: #100e14;
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 #title-section {
@@ -19,18 +22,8 @@ body {
   align-items: baseline;
 }
 
-#title-subsection>header {
-  flex: auto;
-}
-
-#title-subsection>a {
-  flex: initial;
-}
-
 #main-body {
-  margin: auto;
-  padding: 20px 20px 60px 20px;
-  max-width: 700px;
+  padding: 20px 80px 60px 80px;
 }
 
 a {
@@ -53,11 +46,16 @@ a:hover {
 header {
   text-align: center;
   background-color: #522e92;
-  padding: 20px;
+  padding: 0% 2% 0% 2%;
+  margin-bottom: 2%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  width: 96%;
+  z-index: 250;
 }
 
 button {
@@ -151,7 +149,7 @@ footer {
   align-items: center;
   justify-content: flex-end;
   height: 50px;
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: 100%;
   background-color: #100e14;

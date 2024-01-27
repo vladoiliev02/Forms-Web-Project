@@ -14,7 +14,7 @@ window.onload = async function () {
 
   fetchForm(formId)
     .then(form => {
-      document.getElementById('form-title').innerHTML = form.title;
+      document.getElementById('form-title').innerText = form.title;
       for (const question of form.questions) {
         createQuestion(document.getElementById('questions'), question);
       }

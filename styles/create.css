@@ -99,18 +99,10 @@ input:checked+.slider:before {
 }
 
 textarea {
-  width: 80%;
-  height: 70%;
-  position: fixed;
-}
-
-#create-add-section {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #100e14;
+  height: 90%;
+  width: 90%;
 }
 
 #questions {
-  padding-bottom: 60px;
+  flex-grow: 1;
 }
