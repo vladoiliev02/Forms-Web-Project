@@ -60,7 +60,7 @@ if (!$form) {
         <script>
             document.getElementById('exportButton').addEventListener('click', function () {
                 var urlParams = new URLSearchParams(window.location.search);
-                var formId = urlParams.get('formId');
+                var formId = urlParams.get('id');
                 fetch(`../php/export.php?formId=${formId}`)
                     .then(response => response.blob())
                     .then(blob => {
