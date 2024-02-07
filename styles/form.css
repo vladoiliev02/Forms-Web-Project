@@ -6,3 +6,8 @@
 #export-footer {
     justify-content: center;
 }
+
+#export-footer div {
+    display: inline-block;
+    margin-left: 3%;
+}

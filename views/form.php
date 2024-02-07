@@ -32,8 +32,7 @@ if (!$form) {
     <header>
         <h2><?= $form->title ?></h2>
         <a href="../index.html">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H10v7H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
@@ -56,11 +55,23 @@ if (!$form) {
 
 
     <footer id='export-footer'>
-        <button type="button" id="exportButton">Export</button>
+        <div>
+            <button type="button" id="exportButton">Export</button>
+        </div>
+        <div>
+            <button type="button" id="chartButton">Chart</button>
+        </div>
+
         <script>
-            document.getElementById('exportButton').addEventListener('click', function () {
-                var urlParams = new URLSearchParams(window.location.search);
-                var formId = urlParams.get('id');
+            var urlParams = new URLSearchParams(window.location.search);
+            var formId = urlParams.get('id');
+
+            document.getElementById('chartButton').addEventListener('click', function() {
+                window.location.href = `./chart.php?formId=${formId}`;
+            })
+
+            document.getElementById('exportButton').addEventListener('click', function() {
+
                 fetch(`../php/export.php?formId=${formId}`)
                     .then(response => response.blob())
                     .then(blob => {
