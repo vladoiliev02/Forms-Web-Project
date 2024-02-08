@@ -10,18 +10,30 @@ if (isset($_GET['formId'])) {
     try {
         $query = $db->query(
             '
-            SELECT q.value as question, a.value as answer, COUNT(a.value) as answerCount
-            FROM answer a
-            RIGHT JOIN question q on a.question_id = q.id
+            select title 
+            from form
+            where id = ?',
+            [
+                $formId
+            ]
+        );
+
+        $title = $query->fetch()['title'];
+
+        $query = $db->query(
+            '
+            select q.value as question, a.value as answer, count(a.value) as answerCount
+            from answer a
+            right join question q on a.question_id = q.id
             where q.form_id = ?
-            GROUP by q.value, a.value
+            group by q.value, a.value
             order by a.question_id;',
             [
                 $formId
             ]
         );
 
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $query->fetch()) {
             $question = $row['question'];
             $answer = $row['answer'];
             $answerCount = $row['answerCount'];
@@ -34,7 +46,12 @@ if (isset($_GET['formId'])) {
             $answersMap[$question]['answersCount'][] = $answerCount;
         }
 
-        echo json_encode($answersMap);
+        $result = [
+            'title' => $title,
+            'answers' => $answersMap
+        ];
+
+        echo json_encode($result);
     } catch (PDOException $e) {
         echo $e;
     }

@@ -1,9 +1,10 @@
 window.onload = async function () {
-    let answers = await getAnswersMap();
+    let result = await getAnswersMap();
+
+    document.getElementById('form-title').innerHTML = result['title'];
 
     let index = 1;
-
-    for (const [question, answersData] of Object.entries(answers)) {
+    for (const [question, answersData] of Object.entries(result['answers'])) {
         canvasId = addCanvas(index);
 
         drawChart(canvasId, question, answersData['answers'], answersData['answersCount']);
@@ -15,8 +16,6 @@ window.onload = async function () {
 async function getAnswersMap() {
     var urlParams = new URLSearchParams(window.location.search);
     var formId = urlParams.get('formId');
-
-    console.log(formId);
 
     let response = await fetchWithErrorHandling(`../php/chartAnswer.php?formId=${formId}`);
 
